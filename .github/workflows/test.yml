@@ -1,0 +1,44 @@
+---
+name: Test action
+run-name: Test
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  Build:
+    runs-on: ubuntu-latest
+    name: Build and deploy
+    container:
+      image: docker.io/chapvic/actions:alpine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: |
+            echo "$GITHUB_CONTEXT"
+            echo "$JOB_CONTEXT"
+      
+      - name: Send notification
+        uses: chapvic/telegram-notify@v1.1.0
+        if: always()
+        with:
+          chat: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          status: ${{ job.status }}
+          title: "Test build"
+          header: >
+            ```
+            ${{ github.event.head_commit.message }}
+            Run number = ${{ github.run_number }}
+            ```            
+          footer: >
+            [Открыть журнал сборки](${{ github.event.repository.html_url }}/actions/runs/${{ github.run_number }})
+  
