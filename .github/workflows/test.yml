@@ -36,12 +36,6 @@ jobs:
           echo JOB_ID=$(curl -s -H "Authorization: token ${{env.GITHUB_TOKEN}}" "https://api.github.com/repos/${{github.repository}}/actions/runs/${{github.run_id}}/jobs" | yq -r '.jobs[] | .id') | tee -a $GITHUB_OUTPUT
           echo JOB_ID_URL="${{github.event.repository.html_url}}/actions/runs/${{github.run_id}})/job" | tee -a $GITHUB_OUTPUT
 
-      - name: Get Steps
-        env:
-          STEPS: ${{ toJson(steps) }}
-        run: |
-          echo: "$STEPS"
-
       - name: Send notification
         uses: chapvic/telegram-notify@v1.1.0
         if: always()
