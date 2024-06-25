@@ -52,4 +52,8 @@ jobs:
             ```            
 #          footer: >
 #            [Открыть журнал сборки](${{steps.meta.outputs.JOB_ID_URL}}/${{steps.meta.outputs.JOB_ID}})
-  
+
+      - name: Print Environment
+        run: |
+          echo "${{ toJson(env) }}"
+          echo "${{ toJson(steps) }}"
