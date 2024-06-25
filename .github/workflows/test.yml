@@ -32,9 +32,9 @@ jobs:
       - name: Get Meta
         id: meta
         run: |
-          echo "https://api.github.com/repos/${{github.repository}}/actions/runs/${{ github.run_id }}/jobs" >> $GITHUB_OUTPUT
-          echo $(curl -s -H "Authorization: token ${{env.GITHUB_TOKEN}}" "https://api.github.com/repos/${{github.repository}}/actions/runs/${{github.run_id}}/jobs" | yq -r '.jobs[] | .id') >> $GITHUB_OUTPUT
-          echo "${{github.event.repository.html_url}}/actions/runs/${{github.run_id}})/job" >> $GITHUB_OUTPUT
+          echo JOB_URL="https://api.github.com/repos/${{github.repository}}/actions/runs/${{ github.run_id }}/jobs" | tee -a $GITHUB_OUTPUT
+          echo JOB_ID=$(curl -s -H "Authorization: token ${{env.GITHUB_TOKEN}}" "https://api.github.com/repos/${{github.repository}}/actions/runs/${{github.run_id}}/jobs" | yq -r '.jobs[] | .id') | tee -a $GITHUB_OUTPUT
+          echo JOB_ID_URL="${{github.event.repository.html_url}}/actions/runs/${{github.run_id}})/job" | tee -a $GITHUB_OUTPUT
 
       - name: Get Steps
         env:
