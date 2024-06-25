@@ -49,5 +49,5 @@ jobs:
             Run number = ${{ github.run_number }}
             ```            
           footer: >
-            [Открыть журнал сборки](${{ github.repository.html_url }}/actions/runs/${{ github.run_id }})/job/${{ steps.meta.outputs.JOB_ID }})
+            [Открыть журнал сборки](${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }})/job/${{ steps.meta.outputs.JOB_ID }})
   
