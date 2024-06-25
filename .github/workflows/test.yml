@@ -22,11 +22,16 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           JOB_CONTEXT: ${{ toJson(job) }}
-          JOBS_CONTEXT: ${{ toJson(jobs) }}
         run: |
             echo "$GITHUB_CONTEXT"
             echo "$JOB_CONTEXT"
-            echo "$JOBS_CONTEXT"
+
+      - name: Get Meta
+        id: meta
+        run: |
+          - job_url="https://api.github.com/repos/chapvic/repo-test/actions/runs/${{ github.run_id }}/jobs"
+          - echo JOB_URL=$job_url
+          - echo JOB_ID=$(curl -s -H "Authorization: token ${{ env.token }}" $job_url | yq -r '.jobs[] | .id')
       
       - name: Send notification
         uses: chapvic/telegram-notify@v1.1.0
@@ -42,5 +47,5 @@ jobs:
             Run number = ${{ github.run_number }}
             ```            
           footer: >
-            [Открыть журнал сборки](${{ github.event.repository.html_url }}/actions/runs/${{ github.run_number }})
+            [Открыть журнал сборки](${{ steps.meta.outputs.JOB_URL }}/jobs/${{ steps.meta.outputs.JOB_ID }})
   
