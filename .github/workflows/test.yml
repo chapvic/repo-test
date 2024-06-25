@@ -56,7 +56,4 @@ jobs:
       - name: Print Environment
         run: |
           echo "${{ toJson(env) }}"
-          echo "${{ toJson(steps.meta) }}"
-          echo ${{steps.meta.outputs.JOB_URL}}
-          echo ${{steps.meta.outputs.JOB_ID}}
-          echo ${{steps.meta.outputs.JOB_ID_URL}}
+          echo "${{ toJson(env.outputs) }}"
