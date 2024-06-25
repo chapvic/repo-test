@@ -44,11 +44,10 @@ jobs:
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           status: ${{ job.status }}
           title: "Test build"
-          header: "[Открыть журнал сборки](${{steps.get_job_id.outputs.JOB_ID_URL}}/${{steps.get_job_id.outputs.JOB_ID}})"
+          message: "[Открыть журнал сборки](${{steps.get_job_id.outputs.JOB_ID_URL}}/${{steps.get_job_id.outputs.JOB_ID}})"
           footer: >
             ```
             ${{ github.event.head_commit.message }}
-            ${{steps.get_job_id.outputs.JOB_ID_URL}}/${{steps.get_job_id.outputs.JOB_ID}}
             ```            
 
       - name: Print Environment
