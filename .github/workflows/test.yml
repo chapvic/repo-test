@@ -48,8 +48,8 @@ jobs:
             ```
             ${{ github.event.head_commit.message }}
             Run number = ${{ github.run_number }}
-            URL = ${{steps.meta.outputs.JOB_ID_URL}}/${{steps.meta.outputs.JOB_ID}}
+            URL = ${{ steps.meta.outputs.JOB_ID_URL }}/${{ steps.meta.outputs.JOB_ID }}
             ```            
-          footer: >
-            [Открыть журнал сборки](${{steps.meta.outputs.JOB_ID_URL}}/${{steps.meta.outputs.JOB_ID}})
+#          footer: >
+#            [Открыть журнал сборки](${{steps.meta.outputs.JOB_ID_URL}}/${{steps.meta.outputs.JOB_ID}})
   
