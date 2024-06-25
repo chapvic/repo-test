@@ -29,8 +29,8 @@ jobs:
             echo "$GITHUB_CONTEXT"
             echo "$JOB_CONTEXT"
 
-      - name: Get Meta
-        id: meta
+      - name: Get Job ID
+        id: job_id
         run: |
           echo JOB_URL="https://api.github.com/repos/${{github.repository}}/actions/runs/${{ github.run_id }}/jobs" | tee -a $GITHUB_OUTPUT
           echo JOB_ID=$(curl -s -H "Authorization: token ${{env.GITHUB_TOKEN}}" "https://api.github.com/repos/${{github.repository}}/actions/runs/${{github.run_id}}/jobs" | yq -r '.jobs[] | .id') | tee -a $GITHUB_OUTPUT
@@ -44,16 +44,15 @@ jobs:
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           status: ${{ job.status }}
           title: "Test build"
-          header: >
+          header: "Run number = ${{ github.run_number }}"
+          message: >
             ```
             ${{ github.event.head_commit.message }}
-            Run number = ${{ github.run_number }}
-            URL = "${{steps.meta.outputs.JOB_ID_URL}}/${{ steps.meta.outputs.JOB_ID }}"
             ```            
           footer: >
-            [Открыть журнал сборки](${{steps.meta.outputs.JOB_ID_URL}}/${{steps.meta.outputs.JOB_ID}})
+            [Открыть журнал сборки](${{steps.job_id.outputs.JOB_ID_URL}}/${{steps.job_id.outputs.JOB_ID}})
 
       - name: Print Environment
         run: |
           echo "${{ toJson(env) }}"
-          echo "${{ toJson(env.outputs) }}"
+          echo "${{ toJson(steps.job_id) }}"
