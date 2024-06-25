@@ -29,8 +29,8 @@ jobs:
       - name: Get Meta
         id: meta
         run: |
-          job_url="https://api.github.com/repos/chapvic/repo-test/actions/runs/${{ github.run_id }}/jobs"
-          echo JOB_ID=$(curl -s -H "Authorization: token ${{ env.token }}" $job_url | yq -r '.jobs[] | .id')
+          echo JOB_URL="https://api.github.com/repos/chapvic/repo-test/actions/runs/${{ github.run_id }}/jobs"
+          echo JOB_ID=$(curl -s -H "Authorization: token ${{ env.token }}" ${{ steps.meta.outputs.JOB_URL }} | yq -r '.jobs[] | .id')
       
       - name: Send notification
         uses: chapvic/telegram-notify@v1.1.0
