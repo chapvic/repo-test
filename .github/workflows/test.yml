@@ -22,9 +22,11 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           JOB_CONTEXT: ${{ toJson(job) }}
+          JOBS_CONTEXT: ${{ toJson(jobs) }}
         run: |
             echo "$GITHUB_CONTEXT"
             echo "$JOB_CONTEXT"
+            echo "$JOBS_CONTEXT"
       
       - name: Send notification
         uses: chapvic/telegram-notify@v1.1.0
